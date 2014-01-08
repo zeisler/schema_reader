@@ -1,5 +1,5 @@
 # Schema Reader
-[![Build Status](https://travis-ci.org/zeisler/SchemaReader.png?branch=master)](https://travis-ci.org/zeisler/SchemaReader)
+[![Build Status](https://travis-ci.org/zeisler/schema_reader.png?branch=master)](https://travis-ci.org/zeisler/schema_reader)
 
 Reads Rails Database schema.rb and creates a class from selected table with getters and setters.
 
