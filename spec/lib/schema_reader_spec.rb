@@ -74,6 +74,10 @@ describe SchemaReader do
       expect(comment.user.class).to eq User
     end
 
+    it 'will not remove underscores or the letters i and d' do
+      expect(Comment.new(option: double()).respond_to?(:option)).to eq(true)
+    end
+
   end
 
 end

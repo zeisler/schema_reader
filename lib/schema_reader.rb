@@ -35,7 +35,7 @@ module SchemaReader
 
     def add_associations(field_names)
       association_fields = field_names.select {|field| field =~ /_id/}
-      field_names += association_fields.map {|field| field.to_s.delete('_id').to_sym}
+      field_names += association_fields.map {|field| field.to_s.sub('_id', '').to_sym}
       field_names
     end
 
