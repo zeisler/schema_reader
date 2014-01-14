@@ -5,9 +5,9 @@ module SchemaReader
     base.extend(ClassMethods)
   end
 
-  def initialize(options = {})
-    update(options)
-  end
+  #def initialize(options = {})
+  #  update(options)
+  #end
 
   def update(options = {})
     options.each do |attribute, value|
@@ -17,6 +17,14 @@ module SchemaReader
   alias_method :update_attributes, :update
 
   module ClassMethods
+
+    def pass_attributes_to_new(bool=true)
+      if bool
+        define_method("initialize") do |options|
+          update(options)
+        end
+      end
+    end
 
     def attr_schema(options = {})
       table = options.fetch(:table)

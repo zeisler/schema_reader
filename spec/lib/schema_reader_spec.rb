@@ -1,4 +1,5 @@
 require 'rspec'
+require 'active_hash'
 require_relative '../../lib/schema_reader'
 
 describe SchemaReader do
@@ -53,11 +54,53 @@ describe SchemaReader do
 
   end
 
+  describe 'pass_attributes_to_new' do
+
+    it 'has arg of true' do
+
+      class CommentPassableTrue
+        include SchemaReader
+        pass_attributes_to_new true
+        attr_schema table: 'comments',
+                    file:  File.new('schema.rb', 'r')
+      end
+
+      expect(CommentPassableTrue.new(comment: "comment").comment).to eq('comment')
+
+    end
+
+    it 'has arg of false' do
+      class CommentPassableFalse
+        include SchemaReader
+        pass_attributes_to_new false
+        attr_schema table: 'comments',
+                    file:  File.new('schema.rb', 'r')
+      end
+
+      expect { CommentPassableFalse.new(comment: "comment").comment }.to raise_error(ArgumentError)
+
+    end
+
+    it 'has a default if method not called of false' do
+
+      class CommentPassableDefault
+        include SchemaReader
+        attr_schema table: 'comments',
+                    file:  File.new('schema.rb', 'r')
+      end
+
+      expect { CommentPassableDefault.new(comment: "comment").comment }.to raise_error(ArgumentError)
+
+    end
+
+  end
+
   describe 'associations' do
 
     before do
       class Comment
         include SchemaReader
+        pass_attributes_to_new :true
         attr_schema table: 'comments',
                     file:  File.new('schema.rb', 'r')
       end
@@ -78,6 +121,21 @@ describe SchemaReader do
       expect(Comment.new(option: double()).respond_to?(:option)).to eq(true)
     end
 
+  end
+
+  describe 'compatibility with ActiveHash' do
+
+    before do
+      class ActiveUser < ActiveHash::Base
+        include SchemaReader
+        pass_attributes_to_new false
+        fields *read_schema('users', File.new('schema.rb', 'r'))
+      end
+    end
+
+    it 'will have attributes from the schema file' do
+      expect(ActiveUser.create(name: 'Joe').name).to eq 'Joe'
+    end
   end
 
 end
