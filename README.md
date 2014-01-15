@@ -44,6 +44,7 @@ Or install it yourself as:
     # /spec/*
     class User
       include SchemaReader
+      pass_attributes_to_new true # This enables the new method to takes an attributes' hash
       attr_schema table: 'users', file:  File.new('db/schema.rb', 'r')
     end
 
@@ -61,6 +62,7 @@ Or install it yourself as:
 
     class Comment
       include SchemaReader
+      pass_attributes_to_new true
       attr_schema table: 'comments', file:  File.new('db/schema.rb', 'r')
     end
 
