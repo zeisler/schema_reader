@@ -23,7 +23,13 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~>10.1"
   spec.add_development_dependency "rspec", "~>2.14"
   spec.add_development_dependency 'active_hash', '1.2.3'
-  spec.add_development_dependency 'rubysl' if RUBY_ENGINE == "rubinius"
+
+  if RUBY_ENGINE == "rubinius"
+    spec.add_development_dependency 'rubysl'
+    spec.add_development_dependency "rubysl-singleton", "~> 2.0"
+    spec.add_development_dependency "rubysl-optparse", "~> 2.0"
+    spec.add_development_dependency "rubysl-ostruct", "~> 2.0"
+  end
 
   #spec.add_development_dependency "debase", "~>0.0"
   #spec.add_development_dependency "ruby-debug-ide", "~>0.4"
